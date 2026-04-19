@@ -60,4 +60,4 @@ Bu proje yapay zeka desteğiyle oluşturulmuştur. Kodun test edilmesi, düzenle
 
 ## 📄 Lisans
 
-Bu proje eğitim amaçlıdır.
+Bu proje MIT lisansı ile lisanslanmıştır. Detaylar için LICENSE dosyasına bakın.

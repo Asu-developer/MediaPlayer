@@ -1,0 +1,36 @@
+﻿<Window x:Class="MuzikCalar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Music" Height="500" Width="700" Background="#FF404040">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Klasör yolu -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBox x:Name="txtKlasor" Width="400" Height="30" Margin="0,0,10,0" Background="#FF8A8A8A" Foreground="White"/>
+            <Button Content="Klasör Seç" Width="100" Click="BtnKlasorSec_Click"/>
+            <Button Content="Listeyi Yükle" Width="100" Margin="10,0,0,0" Click="BtnYukle_Click"/>
+        </StackPanel>
+
+        <!-- Şarkı listesi -->
+        <ListBox x:Name="lstSarkilar" Grid.Row="2" Margin="0,0,0,10" FontSize="14"
+                 MouseDoubleClick="LstSarkilar_MouseDoubleClick" Background="#FF404040" Foreground="White"/>
+
+        <!-- Kontroller -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="◀ Önceki" Width="100" Height="50" Margin="5" Click="BtnOnceki_Click"/>
+            <Button Content="▶ Oynat" Width="100" Height="50" Margin="5" Click="BtnOynat_Click"/>
+            <Button Content="⏹ Durdur" Width="100" Height="50" Margin="5" Click="BtnDurdur_Click"/>
+            <Button Content="Sonraki ▶" Width="100" Height="50" Margin="5" Click="BtnSonraki_Click"/>
+        </StackPanel>
+
+        <!-- Medya oynatıcı (görünmez olacak) -->
+        <MediaElement x:Name="mediaPlayer" Grid.Row="2" Visibility="Collapsed"/>
+    </Grid>
+</Window>

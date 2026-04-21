@@ -66,6 +66,10 @@ Ses Ayarı: Sağ taraftaki dikey bar üzerinden sesi kendinize göre ayarlayın.
 
 [ ] Oynatma listesini (Playlist) kaydetme ve tekrar yükleme.
 
+⚠️ Not
+---------------------------------------------------------------------------------------
+Bu proje yapay zeka desteğiyle oluşturulmuştur. Kodun test edilmesi, düzenlenmesi ve çalışır hale getirilmesi tarafımdan yapılmıştır.
+
 
 📄 Lisans
 ---------------------------------------------------------------------------------------

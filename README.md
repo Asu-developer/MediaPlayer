@@ -1,70 +1,79 @@
-🎵 MuzikCalar Pro v2.0 (Modern WPF)
-------------------------------------
-MuzikCalar Pro, sadece bir müzik oynatıcı değil, aynı zamanda şık tasarımı ve dinamik animasyonlarıyla masaüstünüzü canlandıran modern bir multimedya deneyimidir. C# ve WPF mimarisi üzerine inşa edilen uygulama, yüksek performanslı görselleştirme teknikleri ve kullanıcı odaklı arayüz geliştirmeleriyle yenilendi.
+🎵 MuzikCalar Pro v2.1
+------------------------
+MuzikCalar Pro, C# ve WPF teknolojilerinin sınırlarını zorlayan, yüksek performanslı ve modern bir masaüstü müzik deneyimidir. Bu sürümle birlikte uygulama, sadece müzik çalmakla kalmayıp, görsel bir şölen sunan ve kullanıcı etkileşimini en üst düzeye çıkaran akıllı özelliklerle donatılmıştır.
 
-🚀 Yeni ve Öne Çıkan Özellikler
-------------------------------------
-🌊 Siri-Style Waveform Visualizer
-Müziğin ritmine duyarlı, yüksek FPS ile çalışan dinamik dalga animasyonu. CompositionTarget.Rendering motoru kullanılarak akıcı bir görsel şölen sunar.
+🌟 Öne Çıkan Yeni Özellikler
+------------------------
+🌊 Siri-Style Dinamik Görselleştirici (Visualizer)
+Yüksek FPS Animasyon: CompositionTarget.Rendering motoru kullanılarak saniyede 60+ kare hızında akıcı bir dalga formu sunar.
 
-🔀 Gelişmiş Oynatma Modları
-------------------------------------
-Shuffle (Karıştır): Tek tıkla listenizi rastgele bir serüvene dönüştürün. Özel tasarlanmış ToggleButton ile modun aktifliğini görsel olarak takip edin.
+Ritim Simülasyonu: Müzik çalarken rastgele genlik değişimleri ve kenar sönümleme (edge damping) ile gerçekçi bir "Siri" dalga efekti oluşturur.
 
-Akıllı Liste Geçişi: Şarkı bittiğinde seçtiğiniz moda göre (sıralı veya karışık) otomatik geçiş.
+Dingin Mod: Müzik durduğunda dalga formu otomatik olarak düz bir çizgiye dönüşür.
 
-🎨 Profesyonel UI/UX Tasarımı
-------------------------------------
-Spotify Temalı Karanlık Mod: Göz yormayan, modern #121212 derinliğinde karanlık tema.
+🔍 Akıllı Arama ve Filtreleme
+Anlık Filtreleme: Yazmaya başladığınız anda listeniz daralır.
 
-Özel Kontrol Tasarımları: Standart Windows bileşenleri yerine tamamen özelleştirilmiş Kaydırma Çubukları (ScrollBar) ve etkileşimli butonlar.
+Relevans Sıralaması: LINQ tabanlı arama algoritması, aranan kelimenin şarkı ismindeki konumuna göre en alakalı sonuçları en üste taşır.
 
-Akıllı Odak Yönetimi: Boş alana tıklandığında seçimi temizleyen, çalan şarkıyı listede farklı bir stil ile vurgulayan (Playing tag desteği) akıllı liste yapısı.
+🖱️ Gelişmiş Etkileşim ve UI Kontrolleri
+Dinamik Ölçeklendirme: Ctrl + Fare Tekerleği kombinasyonu ile şarkı listesinin boyutunu ve yazı tipini (FontSize) anlık olarak büyütebilir veya küçültebilirsiniz.
 
-🛠️ Teknik Altyapı ve İyileştirmeler
-------------------------------------
-Dil/Mimari: C# | WPF (Windows Presentation Foundation)
+Akıllı Odak Yönetimi: Boş bir alana tıklandığında seçili şarkı otomatik olarak bırakılır, arayüz kalabalığı önlenir.
 
-Grafik Motoru: Animasyonlar için düşük işlemci kullanımı sağlayan yüksek tazeleme hızlı CompositionTarget döngüsü.
+Şarkı Takibi: O an çalan şarkı, listede özel bir stil (Tag="Playing") ile vurgulanır.
 
-Medya Kontrolü: MediaElement (Manual mode) ile kesintisiz ve hatasız parça geçişleri.
+🎨 Premium XAML Stilleri
+Özel ScrollBar: Standart Windows görünümünden kurtulmuş, modern ve ince tasarımlı kaydırma çubukları.
 
-UI Stil Yönetimi: XAML Resources üzerinden yönetilen merkezi tema sistemi.
+Modern Shuffle Toggle: Aktif olduğunda Spotify yeşiline dönen, etkileşimli "Karıştır" butonu.
 
-📦 Kurulum ve Çalıştırma
-------------------------------------
-Repoyu Klonlayın:
+Karanlık Tema v2: #121212 tabanlı, göz yormayan profesyonel renk paleti.
+
+🛠️ Teknik Detaylar
+------------------------
+Mimari: INotifyPropertyChanged ile MVVM prensiplerine uygun veri bağlama (Data Binding).
+
+Medya Motoru: MediaElement üzerinden manuel kontrol (Play/Pause/Stop/Position).
+
+Performans: Görselleştirici için PointCollection ve Polyline optimizasyonu.
+
+Hata Yönetimi: Dosya okuma ve oynatma süreçlerinde try-catch blokları ile kararlı çalışma.
+
+📦 Kurulum ve Kullanım
+------------------------
+Projeyi Klonlayın:
 
 Bash
 git clone https://github.com/kullaniciadi/MuzikCalarPro.git
-Projeyi Çalıştırın: Visual Studio ile .sln dosyasını açın ve F5 tuşuna basın.
+Derleme: Visual Studio 2022+ ile projeyi açın ve .NET 6/8+ hedefinde derleyin.
 
-Kullanım: "Klasör Seç" butonuyla MP3 arşivinizi tanıtın ve görsel ritmin keyfini çıkarın.
+Kullanım:
 
-📖 Kullanım İpuçları
-------------------------------------
-Hızlı Erişim: Listeden bir şarkıya çift tıklayarak anında başlatabilirsiniz.
+Klasör Seç: MP3 klasörünüzü seçin, liste otomatik dolacaktır.
 
-Görsel Takip: Alt paneldeki Siri dalgası sadece müzik çalarken hareket eder, duraklattığınızda otomatik olarak "dingin" moda geçer.
+Arama: Sağ üstteki büyüteç simgeli alandan şarkılarınızı anında bulun.
 
-Karıştırma: Sol alt paneldeki 🔀 Karıştır butonu aktifken yeşil yanar; bu, bir sonraki parçanın sürpriz olacağı anlamına gelir!
+Yakınlaştırma: Liste üzerindeyken Ctrl tuşuna basılı tutarak fare tekerleğini çevirin.
 
-🔧 Gelecek Planları (Roadmap)
-------------------------------------
-[ ] Arama & Filtreleme: Binlerce şarkı arasından anlık arama yapma.
+🔧 Geliştirilmiş Kullanım Klavuzu
+------------------------
+Karıştırma Modu: Sol alt paneldeki 🔀 Karıştır butonu aktifse, şarkı bittiğinde veya "Sonraki" denildiğinde rastgele bir parçaya geçilir.
 
-[ ] EQ (Ekolayzer): Ses tonlarını kişiselleştirme desteği.
+İlerleme Çubuğu: Slider üzerine tıkladığınızda müzik duraklar, sürüklemeyi bıraktığınızda kaldığı yerden (yeni pozisyonunda) devam eder.
 
-[ ] ID3 Tag Okuyucu: Albüm kapaklarını ve sanatçı bilgilerini otomatik çekme.
+Ses Ayarı: Sağdaki dikey bar üzerinden hassas ses kontrolü sağlayabilirsiniz.
 
-[ ] Sürükle-Bırak: Dosyaları doğrudan uygulama üzerine bırakarak oynatma.
+📅 Roadmap (Gelecek Planları)
+------------------------
+[ ] ID3 Metadata: Şarkıların albüm kapaklarını ve sanatçı bilgilerini görüntüleme.
 
-⚠️ Not
-------------------------------------
-Bu proje yapay zeka desteğiyle oluşturulmuştur. Kodun test edilmesi, düzenlenmesi ve çalışır hale getirilmesi tarafımdan yapılmıştır.
+[ ] Playlist Kayıt: Oluşturulan filtreli listeleri .m3u olarak kaydetme.
 
-📄 Lisans ve Not
-------------------------------------
-Bu proje MIT Lisansı ile korunmaktadır. Proje, yapay zeka yardımıyla optimize edilmiş ve modern yazılım prensiplerine göre yapılandırılmıştır. Geliştirmeye ve katkı sunmaya açıktır.
+[ ] Sistem Tepsisi (Tray): Uygulama kapandığında arka planda çalmaya devam etme.
 
-Müzik sadece duyulmaz, aynı zamanda görülür. MuzikCalar Pro ile ritmi hisset! 🎧✨
+📄 Lisans
+------------------------
+Bu proje MIT Lisansı kapsamında sunulmaktadır. Geliştirmelere katkıda bulunmak için fork atabilir veya issue açabilirsiniz.
+
+Bu proje, modern C# tekniklerini ve görsel tasarım yeteneklerini birleştirmek amacıyla yapay zeka desteğiyle optimize edilerek geliştirilmiştir.

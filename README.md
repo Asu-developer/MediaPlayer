@@ -2,6 +2,10 @@
 ------------------------
 MuzikCalar Pro, C# ve WPF teknolojilerinin sınırlarını zorlayan, yüksek performanslı ve modern bir masaüstü müzik deneyimidir. Bu sürümle birlikte uygulama, sadece müzik çalmakla kalmayıp, görsel bir şölen sunan ve kullanıcı etkileşimini en üst düzeye çıkaran akıllı özelliklerle donatılmıştır.
 
+Hızlı ndirme linki
+------------------------
+https://github.com/Asu-developer/MediaPlayer/releases/download/V2.1/MediaPlayer.zip
+
 🌟 Öne Çıkan Yeni Özellikler
 ------------------------
 🌊 Siri-Style Dinamik Görselleştirici (Visualizer)

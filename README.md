@@ -1,4 +1,5 @@
 🎵 MuzikCalar Pro (WPF)
+---------------------------------------------------------------------------------------
 Modern, karanlık tema destekli ve kullanıcı dostu bir masaüstü müzik çalar uygulaması. C# ve WPF teknolojileri kullanılarak, performansa ve şık bir kullanıcı deneyimine odaklanılarak geliştirilmiştir.
 
 🚀 Öne Çıkan Özellikler

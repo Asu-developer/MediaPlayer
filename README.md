@@ -1,76 +1,70 @@
-🎵 MuzikCalar Pro (WPF)
----------------------------------------------------------------------------------------
-Modern, karanlık tema destekli ve kullanıcı dostu bir masaüstü müzik çalar uygulaması. C# ve WPF teknolojileri kullanılarak, performansa ve şık bir kullanıcı deneyimine odaklanılarak geliştirilmiştir.
+🎵 MuzikCalar Pro v2.0 (Modern WPF)
+------------------------------------
+MuzikCalar Pro, sadece bir müzik oynatıcı değil, aynı zamanda şık tasarımı ve dinamik animasyonlarıyla masaüstünüzü canlandıran modern bir multimedya deneyimidir. C# ve WPF mimarisi üzerine inşa edilen uygulama, yüksek performanslı görselleştirme teknikleri ve kullanıcı odaklı arayüz geliştirmeleriyle yenilendi.
 
-🚀 Öne Çıkan Özellikler
----------------------------------------------------------------------------------------
-Modern Arayüz: Karanlık mod (Dark Mode) destekli, Spotify esintili şık ve temiz tasarım.
+🚀 Yeni ve Öne Çıkan Özellikler
+------------------------------------
+🌊 Siri-Style Waveform Visualizer
+Müziğin ritmine duyarlı, yüksek FPS ile çalışan dinamik dalga animasyonu. CompositionTarget.Rendering motoru kullanılarak akıcı bir görsel şölen sunar.
 
-Gelişmiş Oynatma Kontrolü: * Oynat/Duraklat, Sonraki/Önceki parça geçişleri.
+🔀 Gelişmiş Oynatma Modları
+------------------------------------
+Shuffle (Karıştır): Tek tıkla listenizi rastgele bir serüvene dönüştürün. Özel tasarlanmış ToggleButton ile modun aktifliğini görsel olarak takip edin.
 
-Progress Bar: Şarkının anlık konumunu görme ve Slider üzerinden ileri/geri sarma.
+Akıllı Liste Geçişi: Şarkı bittiğinde seçtiğiniz moda göre (sıralı veya karışık) otomatik geçiş.
 
-Dinamik Zaman Bilgisi: Geçen süre ve toplam süre takibi.
+🎨 Profesyonel UI/UX Tasarımı
+------------------------------------
+Spotify Temalı Karanlık Mod: Göz yormayan, modern #121212 derinliğinde karanlık tema.
 
-Hassas Ses Denetimi: Dikey ses barı ile uygulama içi ses seviyesi kontrolü.
+Özel Kontrol Tasarımları: Standart Windows bileşenleri yerine tamamen özelleştirilmiş Kaydırma Çubukları (ScrollBar) ve etkileşimli butonlar.
 
-Otomatik Liste Yönetimi: Klasör seçildiğinde tüm .mp3 dosyalarını anlık olarak sıralı bir şekilde listeleme.
+Akıllı Odak Yönetimi: Boş alana tıklandığında seçimi temizleyen, çalan şarkıyı listede farklı bir stil ile vurgulayan (Playing tag desteği) akıllı liste yapısı.
 
-Akıllı Liste: Çift tıklama ile başlatma ve parça bittiğinde otomatik bir sonrakine geçiş.
+🛠️ Teknik Altyapı ve İyileştirmeler
+------------------------------------
+Dil/Mimari: C# | WPF (Windows Presentation Foundation)
 
+Grafik Motoru: Animasyonlar için düşük işlemci kullanımı sağlayan yüksek tazeleme hızlı CompositionTarget döngüsü.
 
-🛠️ Teknik Altyapı
----------------------------------------------------------------------------------------
-Dil: C#
+Medya Kontrolü: MediaElement (Manual mode) ile kesintisiz ve hatasız parça geçişleri.
 
-Arayüz: WPF (Windows Presentation Foundation)
-
-Framework: .NET Core / .NET 6-8+
-
-Medya Motoru: MediaElement (Native Windows Media desteği)
-
-Zamanlama: DispatcherTimer ile gerçek zamanlı UI güncellemeleri.
-
+UI Stil Yönetimi: XAML Resources üzerinden yönetilen merkezi tema sistemi.
 
 📦 Kurulum ve Çalıştırma
----------------------------------------------------------------------------------------
+------------------------------------
 Repoyu Klonlayın:
 
 Bash
-git clone https://github.com/kullaniciadi/MuzikCalar.git
-Projeyi Açın: MuzikCalar.sln dosyasını Visual Studio ile açın.
+git clone https://github.com/kullaniciadi/MuzikCalarPro.git
+Projeyi Çalıştırın: Visual Studio ile .sln dosyasını açın ve F5 tuşuna basın.
 
-Bağımlılıklar: Proje standart WPF kütüphanelerini kullanır, ekstra bir paket kurulumu gerektirmez.
+Kullanım: "Klasör Seç" butonuyla MP3 arşivinizi tanıtın ve görsel ritmin keyfini çıkarın.
 
-Çalıştırın: F5 tuşu ile uygulamayı derleyip başlatın.
+📖 Kullanım İpuçları
+------------------------------------
+Hızlı Erişim: Listeden bir şarkıya çift tıklayarak anında başlatabilirsiniz.
 
+Görsel Takip: Alt paneldeki Siri dalgası sadece müzik çalarken hareket eder, duraklattığınızda otomatik olarak "dingin" moda geçer.
 
-📖 Kullanım Kılavuzu
----------------------------------------------------------------------------------------
-Müzik Yükle: Üst paneldeki "Klasör Seç" butonuna basarak içinde MP3 dosyalarınızın olduğu dizini seçin.
-
-Parça Seçimi: Listelenen şarkılardan birine çift tıklayarak veya alt paneldeki kontrol butonlarını kullanarak müzik keyfini başlatın.
-
-Gezinme: Şarkı devam ederken Progress Slider'ı sürükleyerek istediğiniz saniyeye atlayabilirsiniz.
-
-Ses Ayarı: Sağ taraftaki dikey bar üzerinden sesi kendinize göre ayarlayın.
-
+Karıştırma: Sol alt paneldeki 🔀 Karıştır butonu aktifken yeşil yanar; bu, bir sonraki parçanın sürpriz olacağı anlamına gelir!
 
 🔧 Gelecek Planları (Roadmap)
----------------------------------------------------------------------------------------
-[ ] Şarkı listesinde arama yapma özelliği.
+------------------------------------
+[ ] Arama & Filtreleme: Binlerce şarkı arasından anlık arama yapma.
 
-[ ] Karışık (Shuffle) ve Tekrarla (Repeat) modları.
+[ ] EQ (Ekolayzer): Ses tonlarını kişiselleştirme desteği.
 
-[ ] Albüm kapak resimlerini (ID3 Tag) görüntüleme desteği.
+[ ] ID3 Tag Okuyucu: Albüm kapaklarını ve sanatçı bilgilerini otomatik çekme.
 
-[ ] Oynatma listesini (Playlist) kaydetme ve tekrar yükleme.
+[ ] Sürükle-Bırak: Dosyaları doğrudan uygulama üzerine bırakarak oynatma.
 
 ⚠️ Not
----------------------------------------------------------------------------------------
+------------------------------------
 Bu proje yapay zeka desteğiyle oluşturulmuştur. Kodun test edilmesi, düzenlenmesi ve çalışır hale getirilmesi tarafımdan yapılmıştır.
 
+📄 Lisans ve Not
+------------------------------------
+Bu proje MIT Lisansı ile korunmaktadır. Proje, yapay zeka yardımıyla optimize edilmiş ve modern yazılım prensiplerine göre yapılandırılmıştır. Geliştirmeye ve katkı sunmaya açıktır.
 
-📄 Lisans
----------------------------------------------------------------------------------------
-Bu proje MIT Lisansı ile korunmaktadır. Özgürce çatallayabilir (fork), geliştirebilir ve kullanabilirsiniz.
+Müzik sadece duyulmaz, aynı zamanda görülür. MuzikCalar Pro ile ritmi hisset! 🎧✨

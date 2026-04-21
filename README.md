@@ -1,63 +1,65 @@
-# 🎵 MuzikCalar (WPF)
+🎵 MuzikCalar Pro (WPF)
+Modern, karanlık tema destekli ve kullanıcı dostu bir masaüstü müzik çalar uygulaması. C# ve WPF teknolojileri kullanılarak, performansa ve şık bir kullanıcı deneyimine odaklanılarak geliştirilmiştir.
+---------------------------------------------------------------------------------------
+🚀 Öne Çıkan Özellikler
+Modern Arayüz: Karanlık mod (Dark Mode) destekli, Spotify esintili şık ve temiz tasarım.
 
-Basit ve işlevsel bir masaüstü müzik çalar uygulaması. Belirtilen klasördeki `.mp3` dosyalarını listeler ve temel oynatma kontrolleri sağlar.
+Gelişmiş Oynatma Kontrolü: * Oynat/Duraklat, Sonraki/Önceki parça geçişleri.
 
----
+Progress Bar: Şarkının anlık konumunu görme ve Slider üzerinden ileri/geri sarma.
 
-## 🚀 Özellikler
+Dinamik Zaman Bilgisi: Geçen süre ve toplam süre takibi.
 
-* Klasörden otomatik `.mp3` tarama
-* Şarkı listesi görüntüleme
-* Çift tık ile oynatma
-* Oynat / duraklat
-* Sonraki / önceki şarkı
-* Şarkı bitince otomatik sonraki parçaya geçiş
+Hassas Ses Denetimi: Dikey ses barı ile uygulama içi ses seviyesi kontrolü.
 
----
+Otomatik Liste Yönetimi: Klasör seçildiğinde tüm .mp3 dosyalarını anlık olarak sıralı bir şekilde listeleme.
 
-## 🛠️ Kullanılan Teknolojiler
+Akıllı Liste: Çift tıklama ile başlatma ve parça bittiğinde otomatik bir sonrakine geçiş.
+---------------------------------------------------------------------------------------
 
-* C#
-* WPF (.NET)
-* `MediaElement`
+🛠️ Teknik Altyapı
+Dil: C#
 
----
+Arayüz: WPF (Windows Presentation Foundation)
 
-## 📦 Kurulum
+Framework: .NET Core / .NET 6-8+
 
-1. Repoyu indir:
+Medya Motoru: MediaElement (Native Windows Media desteği)
 
-   ```
-   git clone https://github.com/kullaniciadi/MuzikCalar.git
-   ```
-2. Visual Studio ile aç
-3. Projeyi çalıştır (`F5`)
+Zamanlama: DispatcherTimer ile gerçek zamanlı UI güncellemeleri.
+---------------------------------------------------------------------------------------
 
----
+📦 Kurulum ve Çalıştırma
+Repoyu Klonlayın:
 
-## 📖 Kullanım
+Bash
+git clone https://github.com/kullaniciadi/MuzikCalar.git
+Projeyi Açın: MuzikCalar.sln dosyasını Visual Studio ile açın.
 
-1. “Klasör Seç” ile müzik klasörünü seç
-2. “Listeyi Yükle” ile şarkıları listele
-3. Listeden çift tıkla veya oynat butonuyla başlat
+Bağımlılıklar: Proje standart WPF kütüphanelerini kullanır, ekstra bir paket kurulumu gerektirmez.
 
----
+Çalıştırın: F5 tuşu ile uygulamayı derleyip başlatın.
+---------------------------------------------------------------------------------------
 
-## ⚠️ Not
+📖 Kullanım Kılavuzu
+Müzik Yükle: Üst paneldeki "Klasör Seç" butonuna basarak içinde MP3 dosyalarınızın olduğu dizini seçin.
 
-Bu proje yapay zeka desteğiyle oluşturulmuştur. Kodun test edilmesi, düzenlenmesi ve çalışır hale getirilmesi tarafımdan yapılmıştır.
+Parça Seçimi: Listelenen şarkılardan birine çift tıklayarak veya alt paneldeki kontrol butonlarını kullanarak müzik keyfini başlatın.
 
----
+Gezinme: Şarkı devam ederken Progress Slider'ı sürükleyerek istediğiniz saniyeye atlayabilirsiniz.
 
-## 🔧 Geliştirilebilir Alanlar
+Ses Ayarı: Sağ taraftaki dikey bar üzerinden sesi kendinize göre ayarlayın.
+---------------------------------------------------------------------------------------
 
-* Shuffle / Repeat
-* Ses kontrolü (volume slider)
-* İlerleme çubuğu (progress bar)
-* ID3 tag desteği (şarkı adı, sanatçı vs.)
+🔧 Gelecek Planları (Roadmap)
+[ ] Şarkı listesinde arama yapma özelliği.
 
----
+[ ] Karışık (Shuffle) ve Tekrarla (Repeat) modları.
 
-## 📄 Lisans
+[ ] Albüm kapak resimlerini (ID3 Tag) görüntüleme desteği.
 
-Bu proje MIT lisansı ile lisanslanmıştır. Detaylar için LICENSE dosyasına bakın.
+[ ] Oynatma listesini (Playlist) kaydetme ve tekrar yükleme.
+---------------------------------------------------------------------------------------
+
+📄 Lisans
+Bu proje MIT Lisansı ile korunmaktadır. Özgürce çatallayabilir (fork), geliştirebilir ve kullanabilirsiniz.

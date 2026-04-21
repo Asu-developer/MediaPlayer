@@ -5,76 +5,141 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace MuzikCalar
 {
     public partial class MainWindow : Window
     {
-        private List<string> playlist = new List<string>(); // tam dosya yolları
+        private List<string> playlist = new List<string>();
         private int currentIndex = -1;
+        private bool isPlaying = false;
+        private bool wasPlayingBeforeDrag = false;
+
+        DispatcherTimer timer = new DispatcherTimer();
+        bool isDragging = false;
 
         public MainWindow()
         {
             InitializeComponent();
-
             mediaPlayer.UnloadedBehavior = MediaState.Close;
             mediaPlayer.LoadedBehavior = MediaState.Manual;
-
             mediaPlayer.MediaEnded += MediaPlayer_MediaEnded;
+            mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
         }
+
         private void MediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
             if (playlist.Count == 0) return;
-
             currentIndex = (currentIndex + 1) % playlist.Count;
             Cal();
         }
 
-        // Klasör seç butonu
+        private void MediaPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (mediaPlayer.NaturalDuration.HasTimeSpan)
+            {
+                sliderProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                txtTotalTime.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+            }
+        }
+
+        private void SliderVolume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (mediaPlayer != null)
+                mediaPlayer.Volume = e.NewValue;
+        }
+
+        // ──────────────────────────────────────────────
+        // YENİ: Slider sürüklenirken anlık zamanı gerçek zamanlı göster
+        // ──────────────────────────────────────────────
+        private void SliderProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (isDragging)
+            {
+                TimeSpan current = TimeSpan.FromSeconds(e.NewValue);
+                txtCurrentTime.Text = current.ToString(@"mm\:ss");
+            }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (mediaPlayer.Source == null) return;
+
+            if (mediaPlayer.NaturalDuration.HasTimeSpan)
+            {
+                sliderProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                txtTotalTime.Text = mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss");
+            }
+
+            if (!isDragging)
+            {
+                sliderProgress.Value = mediaPlayer.Position.TotalSeconds;
+                txtCurrentTime.Text = mediaPlayer.Position.ToString(@"mm\:ss");
+            }
+        }
+
+        private void SliderProgress_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (mediaPlayer.Source == null) return;
+
+            wasPlayingBeforeDrag = isPlaying;
+            if (isPlaying)
+            {
+                mediaPlayer.Pause();
+            }
+            isDragging = true;
+        }
+
+        private void SliderProgress_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (mediaPlayer.Source == null) return;
+
+            mediaPlayer.Position = TimeSpan.FromSeconds(sliderProgress.Value);
+
+            if (wasPlayingBeforeDrag)
+            {
+                mediaPlayer.Play();
+                isPlaying = true;
+                btnOynat.Content = "⏸ Durdur";
+            }
+            else
+            {
+                isPlaying = false;
+                btnOynat.Content = "▶ Oynat";
+            }
+
+            isDragging = false;
+        }
+
         private void BtnKlasorSec_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new Microsoft.Win32.OpenFolderDialog
-            {
-                Title = "MP3 dosyalarının olduğu klasörü seçin"
-            };
-
+            var dialog = new Microsoft.Win32.OpenFolderDialog { Title = "MP3 klasörü seç" };
             if (dialog.ShowDialog() == true)
             {
                 txtKlasor.Text = dialog.FolderName;
+                Yukle(dialog.FolderName);
             }
         }
 
-        // Listeyi yükle butonu
-        private void BtnYukle_Click(object sender, RoutedEventArgs e)
+        private void Yukle(string path)
         {
-            string path = txtKlasor.Text.Trim();
-            if (string.IsNullOrEmpty(path) || !Directory.Exists(path))
-            {
-                MessageBox.Show("Geçerli bir klasör yolu girin!", "Hata", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
+            if (string.IsNullOrEmpty(path) || !Directory.Exists(path)) return;
 
-            // Sadece .mp3 dosyalarını al
-            playlist = Directory.GetFiles(path, "*.mp3", SearchOption.TopDirectoryOnly).ToList();
+            playlist = Directory.GetFiles(path, "*.mp3").OrderBy(f => f).ToList();
 
             lstSarkilar.Items.Clear();
+            foreach (var file in playlist)
+                lstSarkilar.Items.Add(Path.GetFileName(file));
 
-            if (playlist.Count == 0)
-            {
-                MessageBox.Show("Bu klasörde MP3 dosyası bulunamadı!", "Bilgi", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
-            foreach (string file in playlist)
-            {
-                lstSarkilar.Items.Add(Path.GetFileName(file)); // sadece dosya adı göster
-            }
-
-            currentIndex = 0;
-            MessageBox.Show($"{playlist.Count} adet MP3 yüklendi.", "Başarılı");
+            if (playlist.Count > 0)
+                currentIndex = 0;
         }
 
-        // Çift tıklayınca çal
         private void LstSarkilar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (lstSarkilar.SelectedIndex == -1) return;
@@ -82,31 +147,31 @@ namespace MuzikCalar
             Cal();
         }
 
-        // Oynat butonu
         private void BtnOynat_Click(object sender, RoutedEventArgs e)
         {
-            if (playlist.Count == 0 || currentIndex == -1)
-                return;
+            if (playlist.Count == 0 || currentIndex == -1) return;
 
-            // Eğer zaten aynı şarkı yüklüyse sadece devam ettir
-            if (mediaPlayer.Source != null &&
-                mediaPlayer.Source.LocalPath == playlist[currentIndex])
+            if (isPlaying)
             {
-                mediaPlayer.Play(); // kaldığı yerden devam
+                mediaPlayer.Pause();
+                isPlaying = false;
+                btnOynat.Content = "▶ Oynat";
             }
             else
             {
-                Cal(); // yeni şarkı başlat
+                if (mediaPlayer.Source != null && mediaPlayer.Source.LocalPath == playlist[currentIndex])
+                {
+                    mediaPlayer.Play();
+                    isPlaying = true;
+                    btnOynat.Content = "⏸ Durdur";
+                }
+                else
+                {
+                    Cal();
+                }
             }
         }
 
-        // Durdur butonu
-        private void BtnDurdur_Click(object sender, RoutedEventArgs e)
-        {
-            mediaPlayer.Pause();
-        }
-
-        // Sonraki
         private void BtnSonraki_Click(object sender, RoutedEventArgs e)
         {
             if (playlist.Count == 0) return;
@@ -114,7 +179,6 @@ namespace MuzikCalar
             Cal();
         }
 
-        // Önceki
         private void BtnOnceki_Click(object sender, RoutedEventArgs e)
         {
             if (playlist.Count == 0) return;
@@ -122,7 +186,6 @@ namespace MuzikCalar
             Cal();
         }
 
-        // Şarkıyı çalan ana fonksiyon
         private void Cal()
         {
             if (currentIndex < 0 || currentIndex >= playlist.Count) return;
@@ -132,21 +195,23 @@ namespace MuzikCalar
                 mediaPlayer.Source = new Uri(playlist[currentIndex]);
                 mediaPlayer.Play();
 
-                // Listede seçili olanı vurgula
+                isPlaying = true;
+                btnOynat.Content = "⏸ Durdur";
+
                 lstSarkilar.SelectedIndex = currentIndex;
+                lstSarkilar.ScrollIntoView(lstSarkilar.SelectedItem);
+                this.Title = "Çalıyor: " + Path.GetFileName(playlist[currentIndex]);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Şarkı çalınırken hata oluştu: " + ex.Message);
+                MessageBox.Show("Hata: " + ex.Message);
             }
         }
+
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            if (mediaPlayer != null)
-            {
-                mediaPlayer.Stop();
-                mediaPlayer.Close();           // UnloadedBehavior=Close ile aynı etki
-            }
+            mediaPlayer.Stop();
+            mediaPlayer.Close();
             base.OnClosing(e);
         }
     }

@@ -1,83 +1,65 @@
-🎵 MuzikCalar Pro v2.1
-------------------------
-MuzikCalar Pro, C# ve WPF teknolojilerinin sınırlarını zorlayan, yüksek performanslı ve modern bir masaüstü müzik deneyimidir. Bu sürümle birlikte uygulama, sadece müzik çalmakla kalmayıp, görsel bir şölen sunan ve kullanıcı etkileşimini en üst düzeye çıkaran akıllı özelliklerle donatılmıştır.
+🎵 MuzikCalar Pro v2.2
+----------------------
+MuzikCalar Pro, C# ve WPF teknolojilerinin sınırlarını zorlayan, yüksek performanslı ve modern bir masaüstü müzik deneyimidir. Bu sürümle birlikte uygulama, statik bir oynatıcıdan ziyade, müziğin ruhunu dijital bir spektruma dönüştüren akıllı bir ekosisteme evrildi.
 
-👇Hızlı indirme linki
-------------------------
-https://github.com/Asu-developer/MediaPlayer/releases/download/V2.1/MediaPlayer.zip
+👇 Hızlı İndirme
+----------------------
+[MuzikCalar Pro v2.2 İndir (Not: Linki güncel sürümünüze göre güncellemeyi unutmayın)](https://github.com/Asu-developer/MediaPlayer/releases/download/V2.2/Setup.exe)
 
 🌟 Öne Çıkan Yeni Özellikler
-------------------------
-🌊 Siri-Style Dinamik Görselleştirici (Visualizer)
-Yüksek FPS Animasyon: CompositionTarget.Rendering motoru kullanılarak saniyede 60+ kare hızında akıcı bir dalga formu sunar.
+----------------------
+🌊 Ritim Duyarlı Dinamik Görselleştirici (v2.2 Güncellemesi)
+Gerçek Zamanlı Spektrum Analizi: Artık dalga formu rastgele değil, çalınan müziğin frekans verilerine (FFT) göre anlık olarak şekillenir. Baslar vurduğunda yükselen, melodide süzülen gerçek bir görsel şölen sunar.
 
-Ritim Simülasyonu: Müzik çalarken rastgele genlik değişimleri ve kenar sönümleme (edge damping) ile gerçekçi bir "Siri" dalga efekti oluşturur.
+Akıcı Render Motoru: CompositionTarget.Rendering optimizasyonu sayesinde, yüksek örnekleme hızlarında bile CPU dostu ve 60+ FPS akıcılığında animasyon sağlar.
 
-Dingin Mod: Müzik durduğunda dalga formu otomatik olarak düz bir çizgiye dönüşür.
+Siri-Style Estetiği: Kenar sönümleme (edge damping) ve yumuşak geçiş efektleriyle modern bir görünüm.
 
-🔍 Akıllı Arama ve Filtreleme
-Anlık Filtreleme: Yazmaya başladığınız anda listeniz daralır.
+🔊 Geliştirilmiş Ses Kontrol Merkezi
+Hassas Kaydırıcı (Slider): Ses çubuğu, kullanıcı etkileşimine daha duyarlı hale getirildi. Logaritmik ses geçişleri ile kulak tırmalamayan, pürüzsüz bir ayarlama deneyimi sunar.
 
-Relevans Sıralaması: LINQ tabanlı arama algoritması, aranan kelimenin şarkı ismindeki konumuna göre en alakalı sonuçları en üste taşır.
+Görsel Geri Bildirim: Ses seviyesi değiştikçe dinamik olarak güncellenen ikonlar ve vurgulu renk paleti.
 
-🖱️ Gelişmiş Etkileşim ve UI Kontrolleri
-Dinamik Ölçeklendirme: Ctrl + Fare Tekerleği kombinasyonu ile şarkı listesinin boyutunu ve yazı tipini (FontSize) anlık olarak büyütebilir veya küçültebilirsiniz.
+🔍 Akıllı Arama ve Liste Yönetimi
+LINQ Tabanlı Filtreleme: Yazmaya başladığınız anda milisaniyeler içinde sonuç veren arama algoritması.
 
-Akıllı Odak Yönetimi: Boş bir alana tıklandığında seçili şarkı otomatik olarak bırakılır, arayüz kalabalığı önlenir.
-
-Şarkı Takibi: O an çalan şarkı, listede özel bir stil (Tag="Playing") ile vurgulanır.
-
-🎨 Premium XAML Stilleri
-Özel ScrollBar: Standart Windows görünümünden kurtulmuş, modern ve ince tasarımlı kaydırma çubukları.
-
-Modern Shuffle Toggle: Aktif olduğunda Spotify yeşiline dönen, etkileşimli "Karıştır" butonu.
-
-Karanlık Tema v2: #121212 tabanlı, göz yormayan profesyonel renk paleti.
+Dinamik Ölçeklendirme: Ctrl + Mouse Wheel kombinasyonu ile tüm listenin font boyutunu anlık olarak değiştirebilme.
 
 🛠️ Teknik Detaylar
-------------------------
-Mimari: INotifyPropertyChanged ile MVVM prensiplerine uygun veri bağlama (Data Binding).
+----------------------
+Mimari: MVVM prensiplerine sadık kalınarak INotifyPropertyChanged ile tam veri bağlama (Data Binding).
 
-Medya Motoru: MediaElement üzerinden manuel kontrol (Play/Pause/Stop/Position).
+Medya Altyapısı: MediaElement üzerine inşa edilmiş, yüksek kararlılığa sahip özel kontrol katmanı.
 
-Performans: Görselleştirici için PointCollection ve Polyline optimizasyonu.
+UI/UX: Tamamen özelleştirilmiş XAML stilleri, modern ince ScrollBar tasarımı ve "Spotify Yeşili" ile zenginleştirilmiş karanlık tema (#121212).
 
-Hata Yönetimi: Dosya okuma ve oynatma süreçlerinde try-catch blokları ile kararlı çalışma.
+Performans: Görselleştirici için PointCollection ve Polyline optimizasyonları ile düşük kaynak tüketimi.
 
-📦 Kurulum ve Kullanım
-------------------------
+📦 Kurulum ve Geliştirme
+----------------------
 Projeyi Klonlayın:
 
 Bash
-git clone https://github.com/kullaniciadi/MuzikCalarPro.git
-Derleme: Visual Studio 2022+ ile projeyi açın ve .NET 6/8+ hedefinde derleyin.
+git clone https://github.com/Asu-developer/MediaPlayer.git
+Derleme: Visual Studio 2022+ ile açın ve .NET 6/8+ hedefinde çalıştırın.
 
-Kullanım:
+Kullanım İpucu:
+----------------------
 
-Klasör Seç: MP3 klasörünüzü seçin, liste otomatik dolacaktır.
+Klasör Seç: MP3 klasörünüzü hedef gösterin, uygulama kütüphanenizi anında indeksler.
 
-Arama: Sağ üstteki büyüteç simgeli alandan şarkılarınızı anında bulun.
+Odak Yönetimi: Boş alana tıklayarak seçimi temizleyebilir, arayüzü sadeleştirebilirsiniz.
 
-Yakınlaştırma: Liste üzerindeyken Ctrl tuşuna basılı tutarak fare tekerleğini çevirin.
+📅 Yol Haritası (Roadmap)
+----------------------
+[ ] ID3 Metadata: Şarkıların albüm kapaklarını ve sanatçı bilgilerini otomatik çekme.
 
-🔧 Geliştirilmiş Kullanım Klavuzu
-------------------------
-Karıştırma Modu: Sol alt paneldeki 🔀 Karıştır butonu aktifse, şarkı bittiğinde veya "Sonraki" denildiğinde rastgele bir parçaya geçilir.
+[ ] Playlist Kayıt: Filtrelenmiş listeleri .m3u formatında dışa aktarma.
 
-İlerleme Çubuğu: Slider üzerine tıkladığınızda müzik duraklar, sürüklemeyi bıraktığınızda kaldığı yerden (yeni pozisyonunda) devam eder.
-
-Ses Ayarı: Sağdaki dikey bar üzerinden hassas ses kontrolü sağlayabilirsiniz.
-
-📅 Roadmap (Gelecek Planları)
-------------------------
-[ ] ID3 Metadata: Şarkıların albüm kapaklarını ve sanatçı bilgilerini görüntüleme.
-
-[ ] Playlist Kayıt: Oluşturulan filtreli listeleri .m3u olarak kaydetme.
-
-[ ] Sistem Tepsisi (Tray): Uygulama kapandığında arka planda çalmaya devam etme.
+[ ] Tray Mode: Uygulamayı sistem tepsisine küçülterek arka planda çalma desteği.
 
 📄 Lisans
-------------------------
-Bu proje MIT Lisansı kapsamında sunulmaktadır. Geliştirmelere katkıda bulunmak için fork atabilir veya issue açabilirsiniz.
+----------------------
+Bu proje MIT Lisansı kapsamında sunulmaktadır. Geliştirmelere katkıda bulunmak için fork atabilir veya bir issue oluşturabilirsiniz.
 
-Bu proje, modern C# tekniklerini ve görsel tasarım yeteneklerini birleştirmek amacıyla yapay zeka desteğiyle optimize edilerek geliştirilmiştir.
+Bu projede yapay zeka araçları kullanılmıştır

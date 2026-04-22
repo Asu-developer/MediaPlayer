@@ -4,7 +4,7 @@ MuzikCalar Pro, C# ve WPF teknolojilerinin sınırlarını zorlayan, yüksek per
 
 👇 Hızlı İndirme
 ----------------------
-[MuzikCalar Pro v2.2 İndir (Not: Linki güncel sürümünüze göre güncellemeyi unutmayın)](https://github.com/Asu-developer/MediaPlayer/releases/download/V2.2/Setup.exe)
+[MuzikCalar Pro v2.2 İndir](https://github.com/Asu-developer/MediaPlayer/releases/download/V2.2/Setup.exe)
 
 🌟 Öne Çıkan Yeni Özellikler
 ----------------------

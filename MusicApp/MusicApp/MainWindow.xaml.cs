@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using NAudio.Wave;
 
 namespace MuzikCalar
 {
@@ -20,9 +21,17 @@ namespace MuzikCalar
         private bool isDragging = false;
         private bool wasPlayingBeforeDrag = false;
         private double phase = 0;
-        private double beatAmplitude = 0;
+        private double[] beatAmplitudes = new double[5] { 30, 30, 30, 30, 30 }; // Başlangıç değerleri
         private Random rnd = new Random();
         private DispatcherTimer uiTimer = new DispatcherTimer();
+        
+        // NAudio sadece ses analizi için - BASİT VE ETKİLİ
+        private AudioFileReader? audioAnalyzer;
+        private double currentVolume = 0;
+        private double smoothedVolume = 30;
+        private Queue<double> volumeHistory = new Queue<double>();
+        private DispatcherTimer audioAnalysisTimer = new DispatcherTimer();
+        private DateTime lastBeatTime = DateTime.Now;
 
         private double _itemHeight = 38;
         public double ItemHeight
@@ -98,34 +107,165 @@ namespace MuzikCalar
             };
             uiTimer.Start();
 
+            // Ses analizi timer - Her bass vuruşunu yakala
+            audioAnalysisTimer.Interval = TimeSpan.FromMilliseconds(20); // Çok hızlı
+            audioAnalysisTimer.Tick += (s, e) => AnalyzeAudio();
+            audioAnalysisTimer.Start();
+
             // Yüksek FPS Animasyon Döngüsü
             CompositionTarget.Rendering += (s, e) => {
                 DrawWave();
             };
         }
 
+        private void AnalyzeAudio()
+        {
+            if (!isPlaying || audioAnalyzer == null)
+            {
+                // Müzik çalmıyorsa yavaşça azalt
+                for (int i = 0; i < beatAmplitudes.Length; i++)
+                {
+                    beatAmplitudes[i] = Math.Max(20, beatAmplitudes[i] * 0.92);
+                }
+                return;
+            }
+
+            try
+            {
+                // MediaElement pozisyonunu al
+                var currentPos = mediaPlayer.Position;
+                
+                // AudioAnalyzer'ı aynı pozisyona getir (senkronizasyon)
+                if (Math.Abs((audioAnalyzer.CurrentTime - currentPos).TotalSeconds) > 0.25)
+                {
+                    audioAnalyzer.CurrentTime = currentPos;
+                }
+
+                // BASS ALGILAMA İÇİN OPTİMAL BUFFER
+                float[] samples = new float[2048];
+                int samplesRead = audioAnalyzer.Read(samples, 0, samples.Length);
+
+                if (samplesRead > 0)
+                {
+                    // BASS ENERJİSİ HESAPLAMA - Düşük frekanslara odaklan
+                    double bassEnergy = 0;
+                    double midEnergy = 0;
+                    
+                    // İlk 1/3'ü bass (düşük frekans)
+                    int bassRange = samplesRead / 3;
+                    
+                    for (int i = 0; i < samplesRead; i++)
+                    {
+                        double sampleValue = samples[i] * samples[i]; // Karesi - daha hassas
+                        
+                        if (i < bassRange)
+                        {
+                            bassEnergy += sampleValue * 3; // Bass'a çok daha fazla ağırlık
+                        }
+                        else
+                        {
+                            midEnergy += sampleValue;
+                        }
+                    }
+                    
+                    // Normalize - BASS'a odaklan
+                    bassEnergy = Math.Sqrt(bassEnergy / bassRange) * 1200; // Yüksek hassasiyet
+                    
+                    currentVolume = bassEnergy;
+                    
+                    // ÇOK HAFİF SMOOTHING - Her vuruşu yakala
+                    smoothedVolume = smoothedVolume * 0.35 + currentVolume * 0.65;
+
+                    // Kısa geçmiş - daha reaktif
+                    volumeHistory.Enqueue(smoothedVolume);
+                    if (volumeHistory.Count > 5)
+                        volumeHistory.Dequeue();
+
+                    double avgVolume = volumeHistory.Count > 0 ? volumeHistory.Average() : 30;
+
+                    // BASS BEAT DETECTION - DAHA HASSAS
+                    double timeSinceLastBeat = (DateTime.Now - lastBeatTime).TotalMilliseconds;
+                    
+                    // Daha düşük threshold - her ritmi yakala
+                    bool bassBeat = smoothedVolume > avgVolume * 1.25 && 
+                                   smoothedVolume > 8 && 
+                                   timeSinceLastBeat > 75; // Daha kısa cooldown
+                    
+                    if (bassBeat)
+                    {
+                        // BASS BEAT TESPİT EDİLDİ!
+                        lastBeatTime = DateTime.Now;
+                        
+                        // CANVAS YÜKSEKLİĞİNE GÖRE MAKSİMUM DALGA
+                        double canvasHeight = canvasSiri.ActualHeight > 0 ? canvasSiri.ActualHeight : 100;
+                        double maxAmplitude = canvasHeight * 0.22; // Biraz daha küçük maksimum
+                        
+                        // Bass seviyesine göre orantılı dalga
+                        double rawStrength = smoothedVolume * 2.8; // Daha küçük çarpan
+                        double beatStrength = Math.Min(rawStrength, maxAmplitude);
+                        
+                        // SMOOTH GEÇİŞ - Mevcut değerden yavaşça artır
+                        for (int i = 0; i < beatAmplitudes.Length; i++)
+                        {
+                            double targetValue = beatStrength * (0.85 + rnd.NextDouble() * 0.3);
+                            // Ani sıçrama yerine smooth geçiş
+                            beatAmplitudes[i] = beatAmplitudes[i] * 0.3 + targetValue * 0.7;
+                        }
+                    }
+                    else
+                    {
+                        // Beat yok - DAHA YAVAŞ AZALMA (düzleşmeyi önle)
+                        for (int i = 0; i < beatAmplitudes.Length; i++)
+                        {
+                            double minLevel = Math.Max(20, smoothedVolume * 0.5); // Daha yüksek minimum
+                            beatAmplitudes[i] = Math.Max(minLevel, beatAmplitudes[i] * 0.90); // Çok yavaş azalma
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Hata olursa minimum seviyeyi koru
+                for (int i = 0; i < beatAmplitudes.Length; i++)
+                {
+                    beatAmplitudes[i] = Math.Max(20, beatAmplitudes[i] * 0.90);
+                }
+            }
+        }
+
         private void DrawWave()
         {
             double width = canvasSiri.ActualWidth;
             double height = canvasSiri.ActualHeight;
-            if (width <= 0) return;
+            if (width <= 0 || height <= 0) return;
 
             PointCollection points = new PointCollection();
             double midY = height / 2;
 
             if (isPlaying)
             {
-                // Ritim hissi için genlik sönümleme
-                beatAmplitude = Math.Max(15, beatAmplitude * 0.9);
-                if (rnd.Next(0, 10) == 1) beatAmplitude = rnd.Next(25, 55);
+                // Sabit hız
+                phase += 0.12;
 
-                phase += 0.2; // Akış hızı
-
-                for (int x = 0; x <= width; x += 3)
+                for (int x = 0; x <= width; x += 2)
                 {
                     double xNormalized = (double)x / width;
-                    double edgeDamping = Math.Sin(Math.PI * xNormalized); // Kenarları sıfırlar
-                    double y = midY + Math.Sin(x * 0.03 + phase) * beatAmplitude * edgeDamping;
+                    double edgeDamping = Math.Sin(Math.PI * xNormalized);
+                    
+                    // PULSE SİSTEMİ - Sağdan sola giderken küçülür
+                    double pulseEffect = xNormalized;
+                    
+                    // 7 DALGA - Daha fazla dalga görünür
+                    double wave = 0;
+                    wave += Math.Sin(x * 0.030 + phase) * beatAmplitudes[0] * 0.17 * pulseEffect;
+                    wave += Math.Sin(x * 0.045 + phase * 1.2) * beatAmplitudes[1] * 0.14 * pulseEffect;
+                    wave += Math.Sin(x * 0.060 + phase * 1.5) * beatAmplitudes[2] * 0.12 * pulseEffect;
+                    wave += Math.Sin(x * 0.075 + phase * 1.8) * beatAmplitudes[3] * 0.10 * pulseEffect;
+                    wave += Math.Sin(x * 0.090 + phase * 2.1) * beatAmplitudes[4] * 0.08 * pulseEffect;
+                    wave += Math.Sin(x * 0.105 + phase * 2.4) * beatAmplitudes[0] * 0.06 * pulseEffect;
+                    wave += Math.Sin(x * 0.120 + phase * 2.7) * beatAmplitudes[1] * 0.04 * pulseEffect;
+                    
+                    double y = midY + wave * edgeDamping;
                     points.Add(new Point(x, y));
                 }
             }
@@ -145,22 +285,22 @@ namespace MuzikCalar
 
             try
             {
-                // 1. Önce kaynağı durdur ve temizle (Hata payını azaltır)
+                // 1. Önce kaynağı durdur ve temizle
                 mediaPlayer.Stop();
+                audioAnalyzer?.Dispose();
 
                 string dosyaYolu = filteredPlaylist[currentIndex];
 
-                // 2. Kaynağı ata (UriKind.Absolute ile tam yol olduğunu belirt)
+                // 2. MediaElement için kaynağı ata
                 mediaPlayer.Source = new Uri(dosyaYolu, UriKind.Absolute);
-
-                // 3. Oynat (XAML'de Manual yaptığımız için artık hata vermez)
                 mediaPlayer.Play();
+
+                // 3. NAudio analyzer aç (sadece analiz için)
+                audioAnalyzer = new AudioFileReader(dosyaYolu);
 
                 // 4. UI Güncellemeleri
                 isPlaying = true;
                 btnOynat.Content = "⏸";
-
-                // Çakışmayı önlemek için tam isim: System.IO.Path
                 this.Title = "Çalıyor: " + System.IO.Path.GetFileName(dosyaYolu);
 
                 // Çalan şarkıyı beyaz yap

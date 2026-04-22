@@ -46,16 +46,29 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="{x:Type ScrollBar}">
-            <Setter Property="Background" Value="#2A2A2A"/>
+        <Style x:Key="VolumeSliderStyle" TargetType="Slider">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <ControlTemplate TargetType="Slider">
                         <Grid>
-                            <Border Background="{TemplateBinding Background}"/>
-                            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                            <Border Background="#333" Width="4" CornerRadius="2"/>
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge" Background="Transparent" IsHitTestVisible="False"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge" Background="Transparent" IsHitTestVisible="False"/>
+                                </Track.IncreaseRepeatButton>
                                 <Track.Thumb>
-                                    <Thumb Style="{StaticResource ScrollBarThumbStyle}"/>
+                                    <Thumb Width="16" Height="16" Background="#1DB954" BorderBrush="White" BorderThickness="2">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Ellipse Fill="{TemplateBinding Background}" 
+                                                        Stroke="{TemplateBinding BorderBrush}" 
+                                                        StrokeThickness="{TemplateBinding BorderThickness}"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
                                 </Track.Thumb>
                             </Track>
                         </Grid>
@@ -155,7 +168,8 @@
 
                 <Slider x:Name="sliderVolume" Grid.Row="1" Orientation="Vertical" 
                         Minimum="0" Maximum="1" Value="0.5" 
-                        HorizontalAlignment="Center" ValueChanged="SliderVolume_ValueChanged"/>
+                        HorizontalAlignment="Center" ValueChanged="SliderVolume_ValueChanged"
+                        Style="{StaticResource VolumeSliderStyle}"/>
             </Grid>
         </Grid>
 
